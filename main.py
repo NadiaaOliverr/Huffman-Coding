@@ -55,7 +55,9 @@ def write_archive_bin(pack_bin, name_archive):
 
 
 def clear_screen():
-    os.system('clear') or None
+	print("Redirecionando, aguarde um momento...")
+	time.sleep(2)
+	os.system('clear') or None
 
 
 def instructions():
@@ -63,6 +65,7 @@ def instructions():
     clear_screen()
     print("\n----= Informações =----\n")
     print("[1] - Só é possível compactar e descompacatar UMA frase por vez")
+    print("Você será redirecionado em 3 segundos...")
     time.sleep(3)
     clear_screen()
     menu()
@@ -82,27 +85,34 @@ def encrypt():
 
 
 def menu():
-    print("\n----= Compactador de textos =----\n")
-    print("Escolha uma das opções abaixo")
-    print("[1] - Compactar")
-    print("[2] - Descompactar")
-    print("[3] - Informações")
-    print("[4] - Sair\n")
-    print("Opção: ", end="")
-    option = int(input())
-    while option < 1 or option > 3:
-        print("\nVocê digitou uma opção inválida, digite novamente")
-        print("Opção: ", end="")
-        option = int(input())
-    if option == 1:
-        encrypt()
-    elif option == 2:
-        huffman_decrypt()
-    elif option == 3:
-        instructions()
-    elif option == 4:
-        print("\nVocê escolheu sair...\n")
-        exit(1)
+
+	try:
+	    print("\n----= Compactador de textos =----\n")
+	    print("Escolha uma das opções abaixo")
+	    print("[1] - Compactar")
+	    print("[2] - Descompactar")
+	    print("[3] - Informações")
+	    print("[4] - Sair\n")
+	    print("Opção: ", end="")
+	    option = int(input())
+	    while option < 1 or option > 4:
+	        print("\nVocê digitou uma opção inválida, digite novamente")
+	        print("Opção: ", end="")
+	        option = int(input())
+	    if option == 1:
+	        encrypt()
+	    elif option == 2:
+	        huffman_decrypt()
+	    elif option == 3:
+	        instructions()
+	    elif option == 4:
+	        print("\nVocê escolheu sair...\n")
+	        exit(1)
+	except ValueError:
+        	print("\nVocê digitou uma opção inválida, digite novamente")
+        	clear_screen()
+        	menu()
+
 
 #
 # Functions of manipulations string

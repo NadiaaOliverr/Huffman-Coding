@@ -55,7 +55,7 @@ def write_archive_bin(pack_bin, name_archive):
 
 
 def clear_screen():
-	print("Redirecionando, aguarde um momento...")
+	print("Redirecting, wait a moment...")
 	time.sleep(2)
 	os.system('clear') or None
 
@@ -63,8 +63,8 @@ def clear_screen():
 def instructions():
 
     clear_screen()
-    print("\n----= Informações =----\n")
-    print("[1] - Só é possível compactar e descompacatar UMA frase por vez")
+    print("\n----= Information =----\n")
+    print("[1] - It is only possible to compress and unpack ONE phrase at a time")
     print("Você será redirecionado em 3 segundos...")
     time.sleep(3)
     clear_screen()
@@ -73,31 +73,31 @@ def instructions():
 
 def encrypt():
     if(os.path.isfile('.treehuffman.txt')):
-        print("Há uma frase a ser descompactada, tecle 2")
+        print("There is a phrase to be unpacked, press key 2")
         time.sleep(3)
         os.system('clear') or None
         menu()
     else:
-        print("\nDigite a frase a ser compactada: ", end="")
+        print("\nWrite the phrase to be compressed: ", end="")
         string = str(input())
-        write_archive(string, 'arquivoOriginal.txt')
+        write_archive(string, 'Originalarchive.txt')
         huffman_encrypt(string)
 
 
 def menu():
 
 	try:
-	    print("\n----= Compactador de textos =----\n")
-	    print("Escolha uma das opções abaixo")
-	    print("[1] - Compactar")
-	    print("[2] - Descompactar")
-	    print("[3] - Informações")
-	    print("[4] - Sair\n")
-	    print("Opção: ", end="")
+	    print("\n----= Text Compressor =----\n")
+	    print("Choose one option below")
+	    print("[1] - Compress")
+	    print("[2] - Unpack")
+	    print("[3] - Information")
+	    print("[4] - Exit\n")
+	    print("Option: ", end="")
 	    option = int(input())
 	    while option < 1 or option > 4:
-	        print("\nVocê digitou uma opção inválida, digite novamente")
-	        print("Opção: ", end="")
+	        print("\nYou have chosen an invalid option, please choose again")
+	        print("Option: ", end="")
 	        option = int(input())
 	    if option == 1:
 	        encrypt()
@@ -106,10 +106,10 @@ def menu():
 	    elif option == 3:
 	        instructions()
 	    elif option == 4:
-	        print("\nVocê escolheu sair...\n")
+	        print("\nYou chose to leave...\n")
 	        exit(1)
 	except ValueError:
-        	print("\nVocê digitou uma opção inválida, digite novamente")
+        	print("\nYou have chosen an invalid option, please choose again")
         	clear_screen()
         	menu()
 
@@ -177,13 +177,13 @@ def compress_file(word_dvz):
 
     for i in range(len(decimal)):
         bin_data = struct.pack('<H', decimal[i])
-        write_archive_bin(bin_data, 'arquivoCompactado.dvz')
+        write_archive_bin(bin_data, 'Compressedarchive.dvz')
 
     return quantity_zeros
 
 
 def decompress(quantity_zeros):
-    answer_decimal = read_archive_bin('arquivoCompactado.dvz')
+    answer_decimal = read_archive_bin('Compressedarchive.dvz')
     huffman_number = []
 
     for i in range(len(answer_decimal)):
@@ -215,7 +215,7 @@ def table_frequency(string):
             letters.append(frequency)
             letters.append(letter)
             only_letters.append(letter)
-    print("\nTabela de frequência dos caracteres")
+    print("\nFrenquency of characters table")
     print(letters)
     return letters, only_letters
 
@@ -278,7 +278,7 @@ def huffman_encrypt(string):
             letter_binary.append(lettercode)
 
     decompression = []
-    print("\nTabela de Huffman: ".upper())
+    print("\nHuffman's Table: ".upper())
     for letter in letter_binary:
         print(letter[0], letter[1])
         decompression.append(letter[0])
@@ -295,13 +295,13 @@ def huffman_encrypt(string):
     result = [separator.join(word_dvz)]
     result = str(result)
     word_dvz = remove_characters(result)
-    print("\nA frase em Huffman é: ".upper(), end="")
+    print("\nThe phrase in Huffman is: ".upper(), end="")
     print(word_dvz)
 
     binary = ((bin(int(word_dvz, base=2))))
     size_bin = len(binary) - 2
-    print("\nTexto original possui {0} bits".format(str(len(word_dvz)*8)))
-    print("\nTexto compactado possui {0} bits".format(size_bin))
+    print("\nOriginal text has {0} bits".format(str(len(word_dvz)*8)))
+    print("\nCompressed text has {0} bits".format(size_bin))
 
     word_to_record = decompression
     word_to_record = str(word_to_record)
@@ -332,7 +332,7 @@ def huffman_encrypt(string):
 
 def huffman_decrypt():
 
-    if(os.path.isfile('arquivoCompactado.dvz')):
+    if(os.path.isfile('Compressedarchive.dvz')):
 
         separator = ''
         quantity_zeros = []
@@ -393,24 +393,24 @@ def huffman_decrypt():
                         numbers = pattern.group(0)
                 size -= 1
         os.remove('.treehuffman.txt')
-        os.remove('arquivoOriginal.txt')
-        os.remove('arquivoCompactado.dvz')
+        os.remove('Originalarchive.txt')
+        os.remove('Compressedarchive.dvz')
 
         if size_string_read > 1:
             result = [separator.join(word)]
             result = str(result)
             result_archive = remove_characters(result)
             print()
-            print('A palavra presente no arquivo é: {0}'.format(
+            print('The word that is in the archive is: {0}'.format(
                 result_archive))
         else:
             print()
             string_read = str(string_read)
             string_read = remove_characters(string_read)
-            print('A palavra presente no arquivo é: {0}'.format(string_read))
+            print('The word that is in the archive is: {0}'.format(string_read))
 
     else:
-        print("Ainda não há nada compactado")
+        print("There is nothing compressed yet")
         time.sleep(2)
         os.system('clear') or None
         menu()
